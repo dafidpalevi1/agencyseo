@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backstage Agency SEO 2024</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Backstage Agency SEO 2024</h1>
+        <button id="addHostBtn">Tambah Host</button>
+        <div class="table-container">
+          <table id="hostTable">
+            <thead>
+              <tr>
+                <th>Nama Host</th>
+                <th>Status Akun</th>
+                <th>Berlian Bulan Ini</th>
+                <th>Durasi LIVE Bulan Ini</th>
+                <th>Hari Berlaku Bulan Ini</th>
+                <th>Target Berlian Dasar</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="hostTableBody">
+              <!-- Data Host akan ditampilkan disini -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+
+  <div id="addHostModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Tambah Host</h2>
+      <form id="addHostForm">
+        <label for="hostName">Host:</label>
+        <input type="text" id="hostName" name="hostName" required>
+        <label for="accountStatus">Status Akun:</label>
+        <input type="text" id="accountStatus" name="accountStatus" required>
+        <label for="berlianBulanIni">Berlian Bulan Ini:</label>
+        <input type="text" id="berlianBulanIni" name="berlianBulanIni" required>
+        <label for="durasiLiveBulanIni">Durasi LIVE Bulan Ini:</label>
+        <input type="text" id="durasiLiveBulanIni" name="durasiLiveBulanIni" required>
+        <label for="hariBerlakuBulanIni">Hari Berlaku Bulan Ini:</label>
+        <input type="text" id="hariBerlakuBulanIni" name="hariBerlakuBulanIni" required>
+        <label for="targetBerlianDasar">Target Berlian Dasar:</label>
+        <input type="text" id="targetBerlianDasar" name="targetBerlianDasar" required>
+        <button type="submit" class="addBtn">Simpan</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="editHostModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Edit Host</h2>
+      <form id="editHostForm">
+        <input type="hidden" id="editRowIndex" name="editRowIndex">
+        <label for="editHostName">Host:</label>
+        <input type="text" id="editHostName" name="editHostName" required>
+        <label for="editAccountStatus">Status Akun:</label>
+        <input type="text" id="editAccountStatus" name="editAccountStatus" required>
+        <label for="editBerlianBulanIni">Berlian Bulan Ini:</label>
+        <input type="text" id="editBerlianBulanIni" name="editBerlianBulanIni" required>
+        <label for="editDurasiLiveBulanIni">Durasi LIVE Bulan Ini:</label>
+        <input type="text" id="editDurasiLiveBulanIni" name="editDurasiLiveBulanIni" required>
+        <label for="editHariBerlakuBulanIni">Hari Berlaku Bulan Ini:</label>
+        <input type="text" id="editHariBerlakuBulanIni" name="editHariBerlakuBulanIni" required>
+        <label for="editTargetBerlianDasar">Target Berlian Dasar:</label>
+        <input type="text" id="editTargetBerlianDasar" name="editTargetBerlianDasar" required>
+        <button type="submit" class="addBtn">Simpan Perubahan</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
