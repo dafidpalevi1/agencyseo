@@ -1,65 +1,30 @@
 const express = require('express');
+const { graphqlHTTP } = require('express-graphql');
+const mongoose = require('mongoose');
+const schema = require('./schema'); // Buat file schema terpisah untuk schema GraphQL
+
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Middleware untuk memungkinkan parsing body dari request
-app.use(express.json());
-
-// Data contoh untuk digunakan
-let data = [
-  { id: 1, hostName: 'Host 1', accountStatus: 'Active', berlianBulanIni: 100, durasiLiveBulanIni: 10, hariBerlakuBulanIni: 30, targetBerlianDasar: 500 },
-  { id: 2, hostName: 'Host 2', accountStatus: 'Inactive', berlianBulanIni: 50, durasiLiveBulanIni: 5, hariBerlakuBulanIni: 20, targetBerlianDasar: 300 },
-];
-
-// Mengambil semua data
-app.get('/data', (req, res) => {
-  res.json(data);
+// Tambahkan koneksi ke MongoDB
+mongoose.connect('mongodb://localhost:27017/mydatabase', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
-// Mengambil data berdasarkan ID
-app.get('/data/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  const item = data.find(item => item.id === id);
-  if (!item) {
-    res.status(404).json({ message: 'Data not found' });
-  } else {
-    res.json(item);
-  }
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('Connected to MongoDB');
 });
 
-// Menyimpan data baru
-app.post('/data', (req, res) => {
-  const newItem = req.body;
-  newItem.id = data.length + 1;
-  data.push(newItem);
-  res.status(201).json(newItem);
-});
+// Middleware GraphQL
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  graphiql: true // Untuk menggunakan GraphiQL IDE
+}));
 
-// Mengedit data berdasarkan ID
-app.put('/data/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = data.findIndex(item => item.id === id);
-  if (index === -1) {
-    res.status(404).json({ message: 'Data not found' });
-  } else {
-    data[index] = { ...req.body, id };
-    res.json(data[index]);
-  }
-});
-
-// Menghapus data berdasarkan ID
-app.delete('/data/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = data.findIndex(item => item.id === id);
-  if (index === -1) {
-    res.status(404).json({ message: 'Data not found' });
-  } else {
-    data.splice(index, 1);
-    res.json({ message: 'Data deleted successfully' });
-  }
-});
-
-// Jalankan server
+// Port server
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server started on port ${PORT}`);
 });
