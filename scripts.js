@@ -9,38 +9,41 @@ document.addEventListener('DOMContentLoaded', function() {
   // Menampilkan data yang tersimpan di local storage ketika halaman dimuat
   displayStoredData();
 
+  // Tambahkan event listener untuk tombol tambah host
   addHostBtn.addEventListener('click', function() {
     addHostModal.style.display = 'block';
   });
 
+  // Tambahkan event listener untuk tombol close modal
   closeBtns.forEach(function(btn) {
     btn.addEventListener('click', function() {
       addHostModal.style.display = 'none';
     });
   });
 
+  // Tambahkan event listener untuk menutup modal ketika area luar modal diklik
   window.addEventListener('click', function(event) {
     if (event.target == addHostModal) {
       addHostModal.style.display = 'none';
     }
   });
 
+  // Tambahkan event listener untuk submit form tambah host
   addHostForm.addEventListener('submit', function(event) {
     event.preventDefault();
     const rowData = getFormData(addHostForm);
     if (editRowIndex !== null) {
-      // Jika sedang dalam mode edit, lakukan update data
       updateRow(rowData);
       editRowIndex = null;
     } else {
-      // Jika tidak dalam mode edit, tambahkan data baru
       appendRow(rowData);
     }
-    saveData(); // Menyimpan data ke local storage
+    saveData();
     addHostModal.style.display = 'none';
     addHostForm.reset();
   });
 
+  // Fungsi untuk mendapatkan data dari form
   function getFormData(form) {
     const formData = new FormData(form);
     const rowData = {};
@@ -50,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return rowData;
   }
 
+  // Fungsi untuk menambahkan baris ke tabel
   function appendRow(data) {
     const newRow = document.createElement('tr');
     newRow.innerHTML = `
@@ -66,23 +70,20 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     hostTableBody.appendChild(newRow);
 
-    // Menambahkan event listener untuk tombol edit dan delete
-    const editBtn = newRow.querySelector('.editBtn');
-    editBtn.addEventListener('click', function() {
+    // Tambahkan event listener untuk tombol edit dan delete
+    newRow.querySelector('.editBtn').addEventListener('click', function() {
       editRowIndex = newRow.rowIndex;
       populateEditForm(newRow);
       addHostModal.style.display = 'block';
     });
 
-    const deleteBtn = newRow.querySelector('.deleteBtn');
-    deleteBtn.addEventListener('click', function() {
-      // Logika untuk menangani hapus data
-      // Misalnya, menghapus baris dari tabel dan lokal storage
+    newRow.querySelector('.deleteBtn').addEventListener('click', function() {
       newRow.remove();
       saveData();
     });
   }
 
+  // Fungsi untuk mengisi form edit
   function populateEditForm(row) {
     const editHostForm = document.getElementById('addHostForm');
     editHostForm.elements['hostName'].value = row.cells[0].innerText;
@@ -93,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     editHostForm.elements['targetBerlianDasar'].value = row.cells[5].innerText;
   }
 
+  // Fungsi untuk memperbarui baris dalam tabel
   function updateRow(data) {
     const hostTable = document.getElementById('hostTable');
     const editRow = hostTable.rows[editRowIndex];
@@ -104,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
     editRow.cells[5].innerText = data.targetBerlianDasar;
   }
 
+  // Fungsi untuk menyimpan data ke local storage
   function saveData() {
     const rows = hostTableBody.querySelectorAll('tr');
     const data = [];
@@ -121,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('hostData', JSON.stringify(data));
   }
 
+  // Fungsi untuk menampilkan data dari local storage
   function displayStoredData() {
     const storedData = localStorage.getItem('hostData');
     if (storedData) {
